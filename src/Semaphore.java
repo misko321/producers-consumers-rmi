@@ -11,9 +11,9 @@ public class Semaphore {
     // public Object lock;
     public int value;
 
-    public Lock() {
+    public Lock(int value) {
       // this.lock = new Object();
-      // this.value = value;
+      this.value = value;
     }
   }
 
@@ -37,7 +37,7 @@ public class Semaphore {
     Lock lock;
 
     synchronized (this) {
-      lock = new Lock();
+      lock = new Lock(units);
       locks.addLast(lock);
     }
 
@@ -64,11 +64,7 @@ public class Semaphore {
         nextLock = null;
     }
 
-    if (nextLock != null) {
-      synchronized (nextLock) {
-        nextLock.notify();
-      }
-    }
+    doNotify(nextLock);
   }
 
   public void V(int units) {
@@ -79,13 +75,19 @@ public class Semaphore {
       if (!locks.isEmpty())
         nextLock = locks.getFirst();
       else
-        return;
+        nextLock = null;
     }
 
-    synchronized (nextLock) {
-      nextLock.notify();
+    doNotify(nextLock);
+  }
+
+  private void doNotify(Lock nextLock) {
+    if (nextLock != null && nextLock.value <= this.value) {
+      synchronized (nextLock) {
+        nextLock.notify();
+      }
     }
-}
+  }
 
   // private synchronized void addLast(Lock lock) {
   //   locks.addLast(lock);

@@ -10,7 +10,7 @@ public class MyThread implements Runnable {
   }
 
   public void run() {
-    int rounds = 20;
+    int rounds = 200;
 
     switch (action) {
       case 0: {
