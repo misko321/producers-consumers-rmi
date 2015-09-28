@@ -7,9 +7,9 @@ public class Test {
     SharedResource res = new SharedResource();
 
     Thread thread1 = new Thread(new MyThread(res, 0));
-    Thread thread2 = new Thread(new MyThread(res, 0));
-    Thread thread3 = new Thread(new MyThread(res, 1));
-    Thread thread4 = new Thread(new MyThread(res, 2));
+    Thread thread2 = new Thread(new MyThread(res, 1));
+    Thread thread3 = new Thread(new MyThread(res, 2));
+    Thread thread4 = new Thread(new MyThread(res, 3));
 
     thread1.start();
     thread2.start();
@@ -21,7 +21,7 @@ public class Test {
       thread2.join();
       thread3.join();
       thread4.join();
-      res.log();
+      // res.log();
     } catch (InterruptedException e) {
       e.printStackTrace();
     }

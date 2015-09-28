@@ -25,7 +25,12 @@ public class MyThread implements Runnable {
       }
       case 2: {
         for (int i = 0; i < rounds / 2; ++i)
-          res.remove(2);
+          res.add(2);
+        break;
+      }
+      case 3: {
+        for (int i = 0; i < rounds / 4; ++i)
+          res.remove(4);
         break;
       }
     }

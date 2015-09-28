@@ -1,9 +1,9 @@
 
 
 public class SharedResource {
-  private Semaphore cs = new Semaphore();
-  private Semaphore full = new Semaphore(0);
-  private Semaphore empty = new Semaphore(2);
+  private Semaphore cs = new FairSemaphore();//"cs");
+  private Semaphore full = new FairSemaphore(0);//"full");
+  private Semaphore empty = new UnfairSemaphore(4);//"empty");
 
   public int i = 0;
 
@@ -45,11 +45,11 @@ public class SharedResource {
     // } catch (InterruptedException e) { }
   }
 
-  public void log() {
-    System.out.println("cs wakes: " + cs.wakes);
-    System.out.println("empty wakes: " + empty.wakes);
-    System.out.println("full wakes: " + full.wakes);
-
-    System.out.println("all wakes: " + (cs.wakes + empty.wakes + full.wakes));
-  }
+  // public void log() {
+  //   System.out.println("cs wakes: " + cs.wakes);
+  //   System.out.println("empty wakes: " + empty.wakes);
+  //   System.out.println("full wakes: " + full.wakes);
+  //
+  //   System.out.println("all wakes: " + (cs.wakes + empty.wakes + full.wakes));
+  // }
 }
