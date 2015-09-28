@@ -3,7 +3,7 @@
 public class SharedResource {
   private Semaphore cs = new FairSemaphore();//"cs");
   private Semaphore full = new FairSemaphore(0);//"full");
-  private Semaphore empty = new UnfairSemaphore(4);//"empty");
+  private Semaphore empty = new UnfairSemaphore(2);//"empty");
 
   public int i = 0;
 
