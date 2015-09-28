@@ -3,18 +3,19 @@ import java.util.ArrayDeque;
 
 public class Semaphore {
   private int value;
-  private Deque<Long> locks = new ArrayDeque<>();
+  private Deque<Lock> locks = new ArrayDeque<>();
   // private Object lock = new Object();
+  public int wakes;
 
-  // private class Lock {
-  //   // public Object lock;
-  //   public int value;
-  //
-  //   public Lock(int value) {
-  //     // this.lock = new Object();
-  //     this.value = value;
-  //   }
-  // }
+  private class Lock {
+    // public Object lock;
+    public int value;
+
+    public Lock() {
+      // this.lock = new Object();
+      // this.value = value;
+    }
+  }
 
   public Semaphore() {
     this.value = 1;
@@ -32,32 +33,56 @@ public class Semaphore {
     V(1);
   }
 
-  public synchronized void P(int units) {
-    synchronized (this) {
-      Long lock = Thread.currentThread().getId();
-      locks.addLast(lock);
+  public void P(int units) {
+    Lock lock;
 
+    synchronized (this) {
+      lock = new Lock();
+      locks.addLast(lock);
+    }
+
+    synchronized(lock) {
       while (units > value || (!locks.isEmpty() && locks.getFirst() != lock)) {
         try {
-          wait();
+          lock.wait();
+          ++wakes;
         } catch (InterruptedException e) {
           e.printStackTrace();
           Thread.currentThread().interrupt();
         }
       }
+    }
 
+    synchronized (this) {
       value -= units;
-      if (!locks.isEmpty())
-        locks.removeFirst(); //remove this thread's object (== remove(obj)) TODO ?
-      notifyAll();
+      // if (!locks.isEmpty())
+        locks.remove(lock); //remove this thread's object (== remove(obj)) TODO ?
+        lock = null;
+    }
+
+    if (!locks.isEmpty())
+      lock = locks.getFirst();
+
+    if (lock != null) {
+      synchronized (lock) {
+        lock.notify();
+      }
     }
   }
 
-  public synchronized void V(int units) {
+  public void V(int units) {
+    Lock lock;
 
     synchronized (this) {
       value += units;
-      notifyAll();
+      if (!locks.isEmpty())
+        lock = locks.getFirst();
+      else
+        return;
+    }
+
+    synchronized (lock) {
+      lock.notify();
     }
 }
 
