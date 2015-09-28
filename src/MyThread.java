@@ -10,19 +10,21 @@ public class MyThread implements Runnable {
   }
 
   public void run() {
+    int rounds = 20;
+
     switch (action) {
       case 0: {
-        for (int i = 0; i < 4; ++i)
+        for (int i = 0; i < rounds; ++i)
           res.add(1);
         break;
       }
       case 1: {
-        for (int i = 0; i < 4; ++i)
+        for (int i = 0; i < rounds; ++i)
           res.remove(1);
         break;
       }
       case 2: {
-        for (int i = 0; i < 2; ++i)
+        for (int i = 0; i < rounds / 2; ++i)
           res.remove(2);
         break;
       }

@@ -49,5 +49,7 @@ public class SharedResource {
     System.out.println("cs wakes: " + cs.wakes);
     System.out.println("empty wakes: " + empty.wakes);
     System.out.println("full wakes: " + full.wakes);
+
+    System.out.println("all wakes: " + (cs.wakes + empty.wakes + full.wakes));
   }
 }
