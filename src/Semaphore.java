@@ -4,6 +4,7 @@ import java.util.ArrayDeque;
 public class Semaphore {
   private int value;
   private Deque<Long> locks = new ArrayDeque<>();
+  public int wakes;
   // private Object lock = new Object();
 
   // private class Lock {
@@ -39,6 +40,7 @@ public class Semaphore {
 
       while (units > value || (!locks.isEmpty() && locks.getFirst() != lock)) {
         try {
+          ++wakes;
           wait();
         } catch (InterruptedException e) {
           e.printStackTrace();
