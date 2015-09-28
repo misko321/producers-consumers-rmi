@@ -10,18 +10,24 @@ public class MyThread implements Runnable {
   }
 
   public void run() {
-    for (int i = 0; i < 10; ++i) {
-      if (action == 0)
-        res.add(1);
-      else if (action == 1)
-        res.remove(1);
-      else if (action == 2)
-        res.remove(2);
-      else
-        res.add(2);
-      // res.unlock();
+    switch (action) {
+      case 0: {
+        for (int i = 0; i < 10; ++i)
+          res.add(1);
+        break;
+      }
+      case 1: {
+        for (int i = 0; i < 10; ++i)
+          res.remove(1);
+        break;
+      }
+      case 2: {
+        for (int i = 0; i < 5; ++i)
+          res.remove(2);
+        break;
+      }
     }
 
-    System.out.println(Thread.currentThread().getId() + " finished");
+    // System.out.println(Thread.currentThread().getId() + " finished");
   }
 }
