@@ -21,6 +21,7 @@ public class Test {
       thread2.join();
       thread3.join();
       thread4.join();
+      res.log();
     } catch (InterruptedException e) {
       e.printStackTrace();
     }

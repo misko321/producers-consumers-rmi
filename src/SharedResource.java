@@ -6,7 +6,6 @@ public class SharedResource {
   private Semaphore empty = new Semaphore(2);
 
   public int i = 0;
-  public volatile int in = 0;
 
   // public void lock() {
   //   cs.P();
@@ -19,9 +18,7 @@ public class SharedResource {
   public void add(int count) {
     empty.P(count);
     cs.P();
-    ++in;
     cs(count);
-    --in;
     cs.V();
     full.V(count); //TODO P&V -> longer names?
   }
@@ -29,9 +26,7 @@ public class SharedResource {
   public void remove(int count) {
     full.P(count);
     cs.P();
-    ++in;
     cs(-count);
-    --in;
     cs.V();
     empty.V(count);
   }
@@ -48,5 +43,11 @@ public class SharedResource {
     // try {
     //   Thread.sleep(500);
     // } catch (InterruptedException e) { }
+  }
+
+  public void log() {
+    System.out.println("cs wakes: " + cs.wakes);
+    System.out.println("empty wakes: " + empty.wakes);
+    System.out.println("full wakes: " + full.wakes);
   }
 }

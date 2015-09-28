@@ -5,7 +5,7 @@ public class Semaphore {
   private int value;
   private Deque<Lock> locks = new ArrayDeque<>();
   // private Object lock = new Object();
-  public int wakes;
+  public int wakes = 0;
 
   private class Lock {
     // public Object lock;
@@ -44,8 +44,9 @@ public class Semaphore {
     synchronized(lock) {
       while (units > value || (!locks.isEmpty() && locks.getFirst() != lock)) {
         try {
-          lock.wait();
           ++wakes;
+          // System.out.println("wakes: " + wakes);
+          lock.wait();
         } catch (InterruptedException e) {
           e.printStackTrace();
           Thread.currentThread().interrupt();
@@ -53,36 +54,36 @@ public class Semaphore {
       }
     }
 
+    Lock nextLock;
     synchronized (this) {
       value -= units;
-      // if (!locks.isEmpty())
-        locks.remove(lock); //remove this thread's object (== remove(obj)) TODO ?
-        lock = null;
+      locks.remove(lock); //remove this thread's object (== remove(obj)) TODO ?
+      if (!locks.isEmpty())
+        nextLock = locks.getFirst();
+      else
+        nextLock = null;
     }
 
-    if (!locks.isEmpty())
-      lock = locks.getFirst();
-
-    if (lock != null) {
-      synchronized (lock) {
-        lock.notify();
+    if (nextLock != null) {
+      synchronized (nextLock) {
+        nextLock.notify();
       }
     }
   }
 
   public void V(int units) {
-    Lock lock;
+    Lock nextLock;
 
     synchronized (this) {
       value += units;
       if (!locks.isEmpty())
-        lock = locks.getFirst();
+        nextLock = locks.getFirst();
       else
         return;
     }
 
-    synchronized (lock) {
-      lock.notify();
+    synchronized (nextLock) {
+      nextLock.notify();
     }
 }
 

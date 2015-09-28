@@ -12,17 +12,17 @@ public class MyThread implements Runnable {
   public void run() {
     switch (action) {
       case 0: {
-        for (int i = 0; i < 10; ++i)
+        for (int i = 0; i < 4; ++i)
           res.add(1);
         break;
       }
       case 1: {
-        for (int i = 0; i < 10; ++i)
+        for (int i = 0; i < 4; ++i)
           res.remove(1);
         break;
       }
       case 2: {
-        for (int i = 0; i < 5; ++i)
+        for (int i = 0; i < 2; ++i)
           res.remove(2);
         break;
       }
