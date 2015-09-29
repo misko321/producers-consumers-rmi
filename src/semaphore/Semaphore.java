@@ -1,4 +1,4 @@
-
+package semaphore;
 
 public abstract class Semaphore {
   protected int units;

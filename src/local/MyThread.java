@@ -1,3 +1,6 @@
+package local;
+
+import common.*;
 import java.lang.Runnable;
 
 public class MyThread implements Runnable {

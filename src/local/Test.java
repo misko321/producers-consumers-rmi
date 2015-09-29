@@ -1,10 +1,13 @@
+package local;
+
 import java.lang.Thread;
+import common.*;
 
 public class Test {
   public static void main(String[] args) {
     System.out.println("hello world Test");
 
-    SharedResource res = new SharedResource();
+    SharedResource res = new SharedResource(4);
 
     Thread thread1 = new Thread(new MyThread(res, 0));
     Thread thread2 = new Thread(new MyThread(res, 1));
