@@ -8,11 +8,12 @@ public class LocalSemaphoreTest {
     System.out.println("Starting local test of semaphores...\n");
 
     SharedResource res = new SharedResource(4);
+    int rounds = 40;
 
-    Thread thread1 = new Thread(new ExampleThread(res, 0));
-    Thread thread2 = new Thread(new ExampleThread(res, 1));
-    Thread thread3 = new Thread(new ExampleThread(res, 2));
-    Thread thread4 = new Thread(new ExampleThread(res, 3));
+    Thread thread1 = new Thread(new ExampleThread(res, 1, rounds));
+    Thread thread2 = new Thread(new ExampleThread(res, -1, rounds));
+    Thread thread3 = new Thread(new ExampleThread(res, 2, rounds/2));
+    Thread thread4 = new Thread(new ExampleThread(res, -4, rounds/4));
 
     thread1.start();
     thread2.start();

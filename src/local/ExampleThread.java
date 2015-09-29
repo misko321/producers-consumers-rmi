@@ -4,39 +4,23 @@ import common.*;
 import java.lang.Runnable;
 
 public class ExampleThread implements Runnable {
-  public SharedResource res;
-  public int action;
+  private SharedResource res;
+  private int count;
+  private int rounds;
 
-  public ExampleThread(SharedResource res, int action) {
+
+  public ExampleThread(SharedResource res, int count, int rounds) {
     this.res = res;
-    this.action = action;
+    this.count = count;
+    this.rounds = rounds;
   }
 
   public void run() {
-    int rounds = 40;
-
-    //only for test
-    switch (action) {
-      case 0: {
-        for (int i = 0; i < rounds; ++i)
-          res.add(1);
-        break;
-      }
-      case 1: {
-        for (int i = 0; i < rounds; ++i)
-          res.remove(1);
-        break;
-      }
-      case 2: {
-        for (int i = 0; i < rounds / 2; ++i)
-          res.add(2);
-        break;
-      }
-      case 3: {
-        for (int i = 0; i < rounds / 4; ++i)
-          res.remove(4);
-        break;
-      }
+    for (int i = 0; i < rounds; ++i) {
+      if (count > 0) //producer
+        res.add(count);
+      else //consumer
+        res.remove(-count);
     }
   }
 }
