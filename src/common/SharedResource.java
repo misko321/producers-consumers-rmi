@@ -5,7 +5,7 @@ import semaphore.*;
 public class SharedResource {
   private Semaphore cs, full, empty;
 
-  public int i = 0;
+  private int items = 0;
 
   public SharedResource(int bufferSize) {
     cs = new FairSemaphore();
@@ -14,27 +14,27 @@ public class SharedResource {
   }
 
   // public void lock() {
-  //   cs.P();
+  //   cs.acquire();
   // }
   //
   // public void unlock() {
-  //   semaphore.V();
+  //   semaphore.release();
   // }
 
   public void add(int count) {
-    empty.P(count);
-    cs.P();
+    empty.acquire(count);
+    cs.acquire();
     cs(count);
-    cs.V();
-    full.V(count); //TODO P&V -> longer names?
+    cs.release();
+    full.release(count); //TODO acquire&release -> longer names?
   }
 
   public void remove(int count) {
-    full.P(count);
-    cs.P();
+    full.acquire(count);
+    cs.acquire();
     cs(-count);
-    cs.V();
-    empty.V(count);
+    cs.release();
+    empty.release(count);
   }
 
   private void cs(int count) {
@@ -42,13 +42,17 @@ public class SharedResource {
     //   Thread.sleep(100);
     // } catch (InterruptedException e) { }
     // System.out.println("now " + in);
-    System.out.print("(TID=" + Thread.currentThread().getId() + "): " + i);
-    i += count;
-    System.out.println(" -> " + i + " (" + (count > 0 ? "ADD " : "REMOVE ") + Math.abs(count) +")");
+    System.out.print("(TID=" + Thread.currentThread().getId() + "): " + items);
+    items += count;
+    System.out.println(" -> " + items + " (" + (count > 0 ? "ADD " : "REMOVE ") + Math.abs(count) +")");
 
     // try {
     //   Thread.sleep(500);
     // } catch (InterruptedException e) { }
+  }
+
+  public int getItems() {
+    return items;
   }
 
   // public void log() {

@@ -47,19 +47,18 @@ public class ProducersConsumers extends UnicastRemoteObject
 
   @Override
   public Object add(int count) throws RemoteException {
+    //add some artificial delay
     try {
       Thread.sleep(1000);
     } catch (InterruptedException e) { }
 
     res.add(count);
-    // System.out.println("ADD " + count + " unit(s)");
     return null;
   }
 
   @Override
   public Object remove(int count) throws RemoteException {
     res.remove(count);
-    // System.out.println("REMOVE " + count + " unit(s)");
     return null;
   }
 }

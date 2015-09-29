@@ -11,16 +11,16 @@ public abstract class Semaphore {
     this.units = units;
   }
 
-  public void P() {
-    P(1);
+  public void acquire() {
+    acquire(1);
   }
 
-  public void V() {
-    V(1);
+  public void release() {
+    release(1);
   }
 
-  public abstract void P(int units);
-  public abstract void V(int units);
+  public abstract void acquire(int units);
+  public abstract void release(int units);
 
   public int getUnits() {
     return units;

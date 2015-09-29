@@ -13,7 +13,7 @@ public class UnfairSemaphore extends Semaphore {
   }
 
   @Override
-  public synchronized void P(int units) {
+  public synchronized void acquire(int units) {
 
     while (units > this.units) {
       try {
@@ -29,7 +29,7 @@ public class UnfairSemaphore extends Semaphore {
   }
 
   @Override
-  public synchronized void V(int units) {
+  public synchronized void release(int units) {
     this.units += units;
     notifyAll();
   }

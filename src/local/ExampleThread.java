@@ -3,18 +3,19 @@ package local;
 import common.*;
 import java.lang.Runnable;
 
-public class MyThread implements Runnable {
+public class ExampleThread implements Runnable {
   public SharedResource res;
   public int action;
 
-  public MyThread(SharedResource res, int action) {
+  public ExampleThread(SharedResource res, int action) {
     this.res = res;
     this.action = action;
   }
 
   public void run() {
-    int rounds = 200;
+    int rounds = 40;
 
+    //only for test
     switch (action) {
       case 0: {
         for (int i = 0; i < rounds; ++i)
@@ -37,7 +38,5 @@ public class MyThread implements Runnable {
         break;
       }
     }
-
-    // System.out.println(Thread.currentThread().getId() + " finished");
   }
 }

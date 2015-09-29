@@ -22,17 +22,17 @@ public class FairSemaphore extends Semaphore {
   }
 
   @Override
-  public void P(int units) {
+  public void acquire(int units) {
     Lock lock = addYourselfToQueue(units);
     waitForAccess(lock);
     removeYourselfFromQueue(lock);
 
-    //if multiple V()'s notified this thread, maybe there's enough units to wake next one
+    //if multiple release()'s notified this thread, maybe there's enough units to wake next one
     notifyNext();
   }
 
   @Override
-  public void V(int units) {
+  public void release(int units) {
     synchronized (this) {
       this.units += units;
     }
