@@ -23,7 +23,7 @@ Those two differ only in implementation details:
 
 `FairSemaphore` **ensures that no starvation occurs**. It employs a queue that stores which one of the competing threads should enter the critical section next.
 
-`UnfairSemaphore` in turn, **prioritizes not on equity, but on throughput**. Every time there is enough units for any single of waiting threads to go on (if there are more such threads, an undetermined one is getting awaken), that thread is allowed to enter the critical section. Note that this behavior **may lead to starvation** of threads that require more semaphore units than others.
+`UnfairSemaphore` in turn, **prioritizes not on equity, but on throughput**. Every time there is enough units for any single of waiting threads to go on, that thread is allowed to enter the critical section (if there are more such threads, an undetermined one is getting awaken). Note that this behavior **may lead to starvation** of threads that require more semaphore units than others.
 
 ## Producer-consumer code
 
@@ -52,7 +52,7 @@ public void remove(int count) {
   empty.release(count);
 }
 ```
-The reason for the `empty` semaphore to be an instance of `UnfairSemaphore` is simple. If it was fair a situation might occur, when Producer that puts more than 1 unit would have insufficient free space in buffer to proceed and would be forced to wait blocking the access. If at the same time Consumer would require all buffer units to work, he would have to wait as well. That would effectively lead to a deadlock. However, when `UnfairSemaphore` is used instead, remaining producers (e.g. those that produce 1 unit) can do their job normally and fill the buffer.
+The reason for the `empty` semaphore to be an instance of `UnfairSemaphore` is simple. If it was fair a situation might occur, when Producer that puts more than 1 unit would have insufficient free space in buffer to proceed and would be forced to wait blocking the access. If at the same time Consumer would require all buffer units to work, he would have to wait as well. **That would effectively lead to a deadlock**. However, when `UnfairSemaphore` is used instead, remaining producers (e.g. those that produce 1 unit) can do their job normally and fill the buffer.
 
 ## Examples
 
@@ -68,6 +68,8 @@ The second example (located in *src/rmi/*) utilizes Java RMI to build a server t
 
 `ProducersConsumers` server takes 2 arguments, that is port the server should run at and the capacity of the buffer.  
 `Producer` and `Consumer` take 2 arguments, that is address:port of the RMI server and number of units to produce/consume each round.
+
+**Note:** Although the producers and consumers are distributed processes the critical section itself is acquired and released only locally (on the server). This is NOT a *distributed mutual exclusion*.
 
 ## Project file structure
 All source code is located under subdirectories of **src/** directory:
