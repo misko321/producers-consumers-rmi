@@ -21,7 +21,6 @@ public class Consumer {
     ProducersConsumersInterface remoteInterface = null;
     Registry registry;
 
-    // TODO try inside try? +REFACTOR
     try {
       try {
         remoteInterface = (ProducersConsumersInterface) Naming.lookup("//" + args[0] + "/ProducersConsumersServer");
@@ -38,7 +37,6 @@ public class Consumer {
       }
 
     } catch (RemoteException | NotBoundException e) {
-      // Logger.getLogger(Consumer.class.getName()).log(Level.SEVERE, null, e);
       System.out.println("!Connection with server was broken. Either the server is down or " +
         "there is a problem with connecting it.");
     }

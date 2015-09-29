@@ -14,7 +14,6 @@ public class UnfairSemaphore extends Semaphore {
 
   @Override
   public synchronized void acquire(int units) {
-
     while (units > this.units) {
       try {
         wait();

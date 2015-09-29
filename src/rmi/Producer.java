@@ -22,7 +22,6 @@ public class Producer {
     Registry registry;
 
     try {
-      //registry = LocateRegistry.getRegistry(serverAddr);
       try {
         remoteInterface = (ProducersConsumersInterface) Naming.lookup("//" + args[0] + "/ProducersConsumersServer");
       } catch (MalformedURLException e) {
@@ -37,7 +36,6 @@ public class Producer {
         ++round;
       }
     } catch (RemoteException | NotBoundException e) {
-      // Logger.getLogger(Consumer.class.getName()).log(Level.SEVERE, null, e);
       System.out.println("!Connection with server was broken. Either the server is down or " +
         "there is a problem with connecting it.");
     }

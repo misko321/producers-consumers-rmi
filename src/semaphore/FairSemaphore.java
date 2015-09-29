@@ -6,6 +6,7 @@ import java.util.ArrayDeque;
 public class FairSemaphore extends Semaphore {
   private Deque<Lock> locks = new ArrayDeque<>();
 
+  //class for storing information about who waits and for how many units
   private class Lock {
     public int units;
 
@@ -27,7 +28,8 @@ public class FairSemaphore extends Semaphore {
     waitForAccess(lock);
     removeYourselfFromQueue(lock);
 
-    //if multiple release()'s notified this thread, maybe there's enough units to wake next one
+    //if multiple release()'s notified this thread, maybe there's already enough units
+    //to wake the next one (who might have missed aforementioned notify()ies)
     notifyNext();
   }
 
