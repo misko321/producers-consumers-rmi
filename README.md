@@ -66,10 +66,10 @@ The first one (located in *src/local/*) is a test of semaphores with multiple lo
 
 The second example (located in *src/rmi/*) utilizes Java RMI to build a server that provides access to shared buffer, alongside with consumers and producers who want to gain that access.
 
-`ProducersConsumers` server takes 2 arguments, that is port the server should run at and the capacity of the buffer.  
-`Producer` and `Consumer` take 2 arguments, that is address:port of the RMI server and number of units to produce/consume each round.
+`ProducersConsumers` server takes 2 arguments, i.e. [port number] that the server should run at and the [capacity] of the buffer.  
+`Producer` and `Consumer` take 2 arguments, i.e. [address:port] of the RMI server and number of [units] to produce/consume each round.
 
-**Note:** Although the producers and consumers are distributed processes the critical section itself is acquired and released only locally (on the server). This is NOT a *distributed mutual exclusion*.
+**Note:** Although the producers and consumers are distributed processes, the critical section itself is acquired and released only locally (on the server). This is NOT a *distributed mutual exclusion*.
 
 ## Project file structure
 All source code is located under subdirectories of **src/** directory:
