@@ -37,7 +37,7 @@ public class Producer {
       }
     } catch (RemoteException | NotBoundException e) {
       System.out.println("!Connection with server was broken. Either the server is down or " +
-        "there is a problem with connecting it.");
+        "there is a problem with reaching it.");
     }
   }
 }
